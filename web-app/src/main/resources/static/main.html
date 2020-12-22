@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+</head>
+<body>
+    <div id="mainPage">
+        <a href="/tms/myaccount">我的账户</a>
+
+        <a href="modpass.html">修改密码</a>
+        <a href="city/city_manager.html">城市管理</a>
+        <a href="node/node_manager.html">节点管理</a>
+        <a href="">系统管理</a>
+
+        <span style="float: right">当前用户:
+            <a href="#">
+            【{{name}}】
+            </a>
+            <a href="/tms/exitlogin">【退出】</a></span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+    //将这个字符串转换成JS对象
+    // {x:1, y:2, z:3}
+    var str = "x=1;y=2;z=3"
+
+
+    //通过脚本获取的Cookie的格式是:   name1=value1;name2=value2;name3=value3;
+    console.log(document.cookie);
+    var obj = { }
+    var str = document.cookie;
+    var arr = str.split(";");
+    if(arr==null) {
+        var item = str.split("=");
+        //console.log(item[1]);
+    }
+    else {
+        for (let i = 0; i < arr.length; i++) {
+            let itm = arr[i].split("=");
+            obj[itm[0].trim()] = itm[1]
+            //console.log(obj)
+        }
+    }
+
+    var mainPage = new Vue({
+        el:'#mainPage',
+        data:{
+            name : obj['acc_name']==''?'未登录' : obj['acc_name']
+        }
+    })
+</script>
+</body>
+</html>

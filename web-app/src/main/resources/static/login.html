@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统登录</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+<div id="loginPanel">
+    <h1>TMS登录</h1>
+    <a href="main.html">进入主页</a>
+    <form id="loginFrm" class="form-horizontal" action="/stms/user/login"
+          method="get">
+        <!--隐藏的文本框-->
+        <input type="hidden" name="salary" v-model="user.salary" value="9520.3642a">
+
+        <div class="form-group">
+          <label  class="col-sm-2 control-label">账号：</label>
+          <div class="col-sm-10">
+            <input type="text" v-model="user.accountId" name="account_id" id="account_id">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">密码：</label>
+          <div class="col-sm-10">
+            <input type="password" v-model="user.password" name="password" id="password">
+          </div>
+        </div>
+        <div class="form-group">
+        <label class="col-sm-2 control-label">验证码：</label>
+          <div class="col-sm-offset-2 col-sm-10">
+            <input type="text"  id="check_code">
+                <img src=""><!--服务端生成验证码-->
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a href="forgetpass.html">忘记密码</a>
+            </div>
+          </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-default btn-warning">重置</button>
+                <button type="submit" class="btn btn-default">登录</button>
+                <a href="reg.html" class="btn btn-success">注册</a>
+              <!--<button type="button" onclick="login()" class="btn btn-primary">登录</button>-->
+              <button type="button" @click="login()" class="btn btn-primary">登录</button>
+          </div>
+        </div>
+      </form>
+    <!-- 当单击登录的时候，需要验证用户的输入 -->
+</div>
+<script src="js/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var vue = new Vue({
+        el:'#loginPanel',
+        data: {
+            user: {
+                accountId: '',
+                password: '',
+                salary: ''
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            login: function () {
+                //发送GET请求,第一个参数是请求的路径，第二个参数为传递给服务器的数据,第三个是回调函数
+                $.get("/stms/user/login_ajax_2", this.user, function(data) {
+                    console.log(data)
+                });
+            }
+        }
+    })
+
+   /* function login() {
+
+        var params = {
+
+        }
+
+        //选择form对象
+        var frm = document.querySelector("#loginFrm")
+        //var frm = document.getElementById("loginFrm")
+        var formData = new FormData(frm)
+
+        for (var key of formData.keys()) {
+            let value = formData.get(key)
+            params[key] = value
+        }
+        console.log(params)
+
+        //发送GET请求,第一个参数是请求的路径，第二个参数为传递给服务器的数据,第三个是回调函数
+        $.get("/tms/userlogin", params, function(data) {
+            console.log(data)
+        });
+    }*/
+</script>
+</body>
+</html>

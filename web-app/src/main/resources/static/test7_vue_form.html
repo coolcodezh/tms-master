@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <form action="" method="">
+            <input type="text" v-model="msg">
+            A类型<input type="radio" name="type" value="A" v-model="picked" >
+            B类型<input type="radio" name="type" value="B" v-model="picked" >
+            C类型<input type="radio" name="type" value="C" v-model="picked" >
+            <br>
+            <input type="checkbox" name="chkbox" v-model="checked">
+            <input type="checkbox" name="chkbox" v-model="checked">
+            <input type="checkbox" name="chkbox" v-model="checked">
+            <br>
+            <input type="checkbox" v-model="checkedAll" @change="chkAll()">全选/全不选
+            <input type="checkbox" name="fullName" value="Jack" @change="changeChk()" v-model="checkedNames">Jack
+            <input type="checkbox" name="fullName" value="Tom"  @change="changeChk()" v-model="checkedNames">Tom
+            <input type="checkbox" name="fullName" value="Mike" @change="changeChk()" v-model="checkedNames">Mike
+            <input type="checkbox" name="fullName" value="Jerry" @change="changeChk()" v-model="checkedNames">Jerry
+            <br>
+            
+            <select v-model="selectedVal" multiple>
+                <template v-for="p in provs">
+                    <option :value="p.id">{{p.name}}</option>
+                </template>
+            </select>
+            <button>>>></button>
+            <button><<<</button>
+            <select multiple>
+                <option value=""> </option>
+            </select>
+
+            <br>
+            选中项是: {{selectedVal}}
+        </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var app  = new Vue({
+            el:'#app',
+            data:{
+                msg: "我爱你中国",
+                picked: 'B',
+                checked: true,
+                checkedAll:false, //绑定于全选和全不选的复选框，用于判断是否选中，选中了则全选，否则全不选
+                checkedNames: [],  //存储选中的复选框的value值
+                checkLength: 4,
+                provs:[
+                    {id:1,name:'湖南省'},
+                    {id:2,name:'广东省'},
+                    {id:3,name:'江西省'}],
+                selectedVal: [1]
+            },
+            watch: {
+                checkedNames: function(newVal) {
+                    console.log(newVal)
+                }
+            },
+            methods: {
+                //监听全选和全不选复选框的change事件
+                chkAll: function() {
+                    console.log(this.checkedAll)
+                    //如果选中
+                    if(this.checkedAll) {
+                        //清空数组，为了避免重复添加
+                        this.checkedNames = []
+                        //把内容添加到数组中，这个内容要和上面三个复选框的value是一致的
+                        this.checkedNames.push('Jack')
+                        this.checkedNames.push('Tom');
+                        this.checkedNames.push('Mike');
+                        this.checkedNames.push('Jerry');
+                    }
+                    else { //如果没有选中，则清空数组
+                        this.checkedNames = []
+                    }
+                },
+                changeChk : function() {
+                    //当取消或选中了三个复选框的任意一个复选框，则判断数组的长度是否和复选框的数量相等
+                    if(this.checkedNames.length < this.checkLength) {
+                        this.checkedAll = false
+                    }
+                    if(this.checkedNames.length==this.checkLength) {
+                        this.checkedAll = true
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

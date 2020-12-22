@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number">
+    <button onclick="f1()">确定</button>
+    <script>
+
+        setTimeout(function(){
+            console.log(this)
+        }, 3000)
+
+        var n = 123
+        function f1() {
+            console.log("外部函数:"+this)
+            function inner() {
+                console.log("内部函数:"+this)
+            }
+            inner()
+        }
+        //var s1 = "Hello"
+        //f1.call(s1)
+
+        //window.f1()
+        //console.log(window.n)
+
+
+        var obj = new Object
+        
+        obj.f1 = function() {
+                    console.log("外部函数:"+this)
+                    function inner() {
+                        console.log("内部函数:"+this)
+                    }
+                    inner()
+                }
+       
+
+        obj.f1()
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        {{message}}
+        <span>{{num}}</span>
+        <h3>{{bool}}</h3>
+        <h4>{{num_ary}}</h4>
+        <ul>
+            <li>{{num_ary[0]}}</li>
+            <li>{{num_ary[1]}}</li>
+            <li>{{num_ary[2]}}</li>
+            <li>{{num_ary[3]}}</li>
+            <li>{{num_ary[4]}}</li>
+            <li>{{num_ary[5]}}</li>
+        </ul>
+        <div>{{stu.id}}</div>
+        <div>{{stu.name}}</div>
+        <div>{{stu.age}}</div>
+        <div>
+            <span>{{stu.hobs[0]}}</span>
+            <span>{{stu.hobs[1]}}</span>
+        </div>
+        <div>{{ fn() }}</div>
+
+        <div>{{node.nodeType[0].id}} {{node.nodeType[0].name}}</div>
+        <div>{{node.nodeType[1].id}} {{node.nodeType[1].name}}</div>
+
+        <select>
+            <option v-for="type in node.nodeType" v-bind:value="type.id">
+                {{type.name}}
+            </option>
+        </select>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // Model View
+        console.log(typeof(Vue))
+        var app = new Vue( {
+            el: '#app',  //element 是指DOM(文档对象模型)元素  
+            data: {
+                message: 'Hello Vue',
+                num: 123456,
+                bool: true,
+                num_ary : [1,2,3,4,5,6,7,8],
+                stu: {
+                    id: 123311,
+                    name:'成立',
+                    age: 22,
+                    hobs: ['乒乓球','羽毛球']
+                },
+                fn: function(){ return '我爱你中国' },
+                node: {
+                    "nodeType": [
+                        {"id":1,"name": "A类型"},
+                        {"id":2,"name": "B类型"},
+                        {"id":3,"name": "C类型"}
+                    ]
+                }
+            }
+        } );
+         
+    </script>
+</body>
+</html>

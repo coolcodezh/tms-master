@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" >
+</head>
+<body>
+    <!-- xs,sm,md,lg -->
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-md-4" style="background-color: antiquewhite;">1</div>
+            <div class="col-md-4" style="background-color: greenyellow;">2</div>
+            <div class="col-md-4" style="background-color: antiquewhite;">3</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3 col-xs-6" style="background-color:blueviolet;">2</div>
+            <div class="col-md-6 col-xs-6" style="background-color:black;">3</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"  >
+                <select v-model="left_selected_ary" name="" id="" multiple>
+                    <template v-for="(item,index) in left_ary">
+                        <option :value="index">{{item}}</option>
+                    </template>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div>
+                    <button class="btn" @click="moveRight()">>></button>
+                </div>
+                <div>
+                    <button class="btn" @click="moveLeft()"><<</button>
+                </div>
+            </div>
+            <div class="col-md-2"  >
+                <select name="" id="" multiple>
+                    <template v-for="(item,index) in right_ary">
+                        <option :value="index">{{item}}</option>
+                    </template>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var id = [1002,1003,1004];
+        var index_ary = [];
+
+        var a = [{id:1001,name:'湖南省'},{id:1002,name:'广东省'}]
+
+        for(var i=0;i<a.length;i++) {
+            if(a[i].id == id) {
+                index_ary.puth(i)
+            }
+        }
+
+        var ary = ['湖南省','广东省','江西省','湖北省'];
+        console.log(ary)
+
+        var app = new Vue({
+            el:'#app',
+            data: {
+                left_ary: ['湖南省','广东省','江西省','湖北省'],
+                right_ary: [],
+                left_selected_ary:[]
+            },
+            computed: {
+
+            },
+            methods: {
+                moveRight: function() {
+                    console.log(this.left_selected_ary)
+                    //将左边选中的内容添加到右边数组中
+                    for(var i=0;i<this.left_selected_ary.length;i++) {
+                        this.right_ary.push(this.left_ary[this.left_selected_ary[i]])
+                    }
+                    //删除左边数组中选中项
+                    var len = this.left_selected_ary.length-1;
+                    for(var j=len;j>=0;j--) {
+                        this.left_ary.splice(this.left_selected_ary[j],1)
+                    }
+
+                    this.left_selected_ary = []
+                },
+                moveLeft: function() {
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>

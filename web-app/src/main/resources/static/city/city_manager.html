@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市-节点 管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        a {
+            text-decoration: none;
+        }
+        [v-cloak] {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+    <div style="margin-top: 10px;">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>城市名称</label>
+                <input type="text" class="form-control" name="city_name" id="city_name" placeholder="输入城市名称">
+            </div>
+            <button type="button" class="btn btn-info" @click="queryCity()">查询</button>
+            <!-- 弹出一个当前页面的HTML片断 片断的id为myModal -->
+            <button type="button" class="btn btn-warning" 
+            data-toggle="modal" data-target="#myModal" @click="loadOrgName()">新建城市信息</button>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <table class="table table-stripted table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <template v-for="item in city_hd">
+                        <th>{{item}}</th>
+                    </template>
+                    <th><input type="checkbox">全选/全不选</th>
+                </tr>
+            </thead>
+            <tbody v-show="city_bd">
+                    <tr >
+                        <td>[<a href="city_node.html">查看节点</a>][<a href="new_city.html">修改</a>][<a href="">作废</a>]</td>
+                        <td>正常</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 弹出的模态框 -->
+  <div class="modal fade" id="myModal">
+      <form class="form-horizontal" action="/tms/city_mgr/add_city" method="GET">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!-- 头部 -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">新建城市信息</h4>
+        </div>
+        <!--身体 -->
+        <div class="modal-body">
+            <!-- 需要填的内容 -->
+
+            <div>
+                <fieldset title="新建城市">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">城市代码</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="f_city_id" name="f_city_id" style="background-color: darkgray;"  readonly>
+                            </div>
+                        </div>
+             
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">城市名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="f_city_name" 
+                                name="f_city_name" v-model="params.cityName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">机构名称</label>
+                            <div class="col-sm-5">
+                                <!-- 此选择框的数据是要通过查询数据库的 -->
+                                <select v-model="params.orgId" class="form-control" name="org_name" id="org_name">
+                                     <option v-for="org in orgs2" v-bind:value="org.id">{{org.orga_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                                              
+                    </fieldset>
+            </div>
+        </div>
+        <!--脚-->
+        <div class="modal-footer">
+            <button type="button" @click="createCity()" class="btn btn-primary">创建</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        </div>
+
+      </div>
+    </div>
+      </form>
+  </div>
+
+</div>
+</body>
+<script src="/stms/js/jquery-3.5.1.js"></script>
+<script src="/stms/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+
+    var myModalVue = new Vue( {
+        el:'#app',
+        data: {  
+            city_hd: ['操作','状态','城市代码','城市名称','机构名称','配送中心名称'],          
+            city_bd: false,
+            "orgs" : [
+                {"id":1, "name": "小宝"},
+                {"id":2, "name": "大宝"},
+                {"id":3, "name": "长沙ABC"}
+            ],
+            "orgs1": function() {
+
+                return [
+                    {"id":1, "name": "小宝"},
+                    {"id":2, "name": "大宝"},
+                    {"id":3, "name": "长沙ABC"}
+                ]
+            },
+            "orgs2": [],
+            "params": {
+                "cityName":"",
+                "orgId": 1
+            }
+        },
+        mounted: function() {
+            var _self = this;
+            $.get("/stms/data/tms_org.json", function(orgData){
+
+                _self.orgs2 = orgData.orgs
+            }, "json")
+        },
+        methods: {
+            queryCity: function() {
+                //this.city_bd = true
+
+                /*$.get("/stms/citymanager/getcity", {cityId:1001}, function (data) {
+                    console.log(data)
+                },'json')*/
+
+                $.get("/stms/citymanager/getcity2/1002", function (data) {
+                    console.log(data)
+                },'json')
+
+            },
+            createCity: function () {
+                /*alert(this.params.cityName)
+                alert(this.params.orgId)*/
+                $.get("/stms/citymanager/getcity", {cityId:1001}, function (data) {
+                   console.log(data)
+                },'json')
+            },
+            loadOrgName: function () {
+                //jQ的这个函数可以添加自定义请求头
+                //$.ajax();
+                var _self = this;
+                $.get("/tms/orga_mgr", function (data) {
+                    //console.log(data)
+                    _self.orgs2 = data
+                },'json')
+            }
+        }
+    })
+
+    //alert(myModalVue.orgs)
+
+    //Vue
+    function loadOrgName() {
+        //alert("loading")
+        //查询数据 使用ajax
+
+
+        /*$.get("/data/tms_org.json", function(orgData){
+            console.log(orgData)
+            var orgs = orgData.orgs //获取的数据是数组
+            //使用JQuery的选择器选择id为org_name的DOM元素
+            //使用id选择器
+            //遍历数组
+            for(var i=0;i<orgs.length;i++) {
+                //拼接HTML代码 
+
+                var opt = '<option value="'+orgs[i].id+'">'+orgs[i].name+'</option>'
+                $("#org_name").append(opt)
+            }
+        }, "json")*/
+    }
+
+</script>
+</html>

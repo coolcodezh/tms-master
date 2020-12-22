@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .link {
+            background-color: aqua;
+        }
+        .activeCls {
+            background-color: blueviolet;
+        }
+        .errorCls {
+            text-decoration: none;
+        }
+
+        .container1 {
+            border: 2px solid forestgreen;
+            width: 100px;
+            height: 100px;
+            
+        }
+        .container2 {
+            border: 1px solid antiquewhite;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <div>{{msg}}</div>
+        v-model:<input type="text" v-model="msg">
+        v-bind:<input type="text" v-bind:value="msg">
+        <a v-bind:href="url" :style="a_style" :class="{'activeCls': isActive}">百度</a>
+        <a href="#" :class="[activeCls, errorCls]">baidu</a>
+        <br>
+        <button @click="changeStyle()">改变样式</button>
+        <div :class="cstyle">
+
+        </div>
+        <br>
+        <button @click="display()">隐藏</button>
+        <div>
+            这是一个容器
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+                msg: 'Hello',
+                url: 'http://www.baidu.com',
+                a_style: {
+                    border: '2px solid red'
+                },
+                active: 'link',
+                isActive: true,
+                activeCls : 'activeCls',
+                errorCls: 'errorCls',
+                cstyle: 'container1'
+            },
+            watch: {
+                msg: function(newVal, oldVal) {
+                    console.log(newVal+","+oldVal)
+                }
+            },
+            methods: {
+                changeStyle: function () {
+                    this.cstyle = "container2"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

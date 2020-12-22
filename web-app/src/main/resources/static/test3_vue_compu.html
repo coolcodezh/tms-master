@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="n">
+         <input type="text" v-model="number"> 
+        <!--显示购物车中的每一项内容-->
+        <div>
+            <div>
+                <span>商品名</span> <span>单价</span> <span>数量</span>    
+            </div>
+            <div v-for="(item,index) in carts">
+                <span>{{item.name}}</span> <span>{{item.price}}</span> 
+                <span>
+                <span v-on:click="reduce(index)">-</span>
+                <input type="text" v-model="item.count" readonly></span> 
+                <span v-on:click="increa(index)" style="cursor: pointer;">+</span>  
+            </div>
+        </div>
+        
+        <hr>
+        <!-- 计算总价 (计算优惠后的价格)-->
+        <span>总价：{{cartTotalPrice}}</span>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vue = new Vue({
+            el:'#app',
+            //简单的数据属性
+            data:{ 
+                n: 123.556,
+                carts: [
+                    {name:'联想笔记本',price:5198.88,count:1},
+                    {name:'立马电动车',price:2399,count:1},
+                    {name:'衬衣',price:158,count:1}
+                ]
+            },
+            //侦测计算属性的变化
+            watch:{
+                n: function(newVal,oldVal) {
+                    console.log(oldVal+","+newVal)
+                }    
+            },
+            //计算属性
+            computed: {
+                number : function() {
+                    var x = this.n.toFixed(2)
+                    return x
+                },
+                cartTotalPrice: function() {
+                    var total = 0
+                    for (var i=0;i<this.carts.length;i++) {
+                         var item = this.carts[i]
+                         total += item.price*item.count
+                    }
+                    //return total.toFixed(2)
+                    return window.parseInt(total)
+                }
+            },
+            //方法
+            methods: {
+                increa: function(index) {
+                    this.carts[index].count++
+                },
+                reduce: function(index) {
+                    if(this.carts[index].count<=0) {
+                        this.carts[index].count=1
+                    }else {
+                        this.carts[index].count--
+                    }
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

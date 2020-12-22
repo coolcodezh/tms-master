@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    <div id="app">
+        <div>
+            <input type="text">
+            <button type="button" @click="getPlayers()">查询</button>
+        </div>
+        <table class="table">
+            <thead>
+
+            </thead>
+            <tbody>
+                <tr v-for="r in result">
+                    <td>{{r.player_id}}</td>
+                    <td>{{r.player_id}}</td>
+                    <td>{{r.height}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div><span @click="prev()" style="cursor: pointer">上一页</span>
+            <span>{{pages}} - {{pageIndex}}</span>
+            <span @click="next()" style="cursor: pointer">下一页</span></div>
+    </div>
+
+</body>
+<script src="/tms/js/jquery-3.5.1.js"></script>
+<script src="/tms/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data: {
+            pageIndex: 1,
+            pages: 0,
+            result: []
+        },
+        methods:{
+            getPlayers: function () {
+                var _self = this;
+                $.post("/tms/getPlayers",{pageIndex: this.pageIndex},function (data) {
+                    _self.result = data.list;
+                    _self.pages = data.totalRows;
+                },"json")
+            },
+            prev: function () {
+                if(this.pageIndex<=1) {
+                    this.pageIndex=1;
+                }else {
+                    this.pageIndex--;
+                }
+                this.getPlayers();
+            },
+            next: function () {
+                if(this.pageIndex>=this.pages) {
+                    this.pageIndex=this.pages;
+                }
+                else {
+                    this.pageIndex++;
+                }
+                this.getPlayers();
+            }
+        }
+    });
+</script>
+</html>

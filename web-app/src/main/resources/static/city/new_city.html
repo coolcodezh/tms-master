@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新建城市-节点</title>
+</head>
+<body>
+    <span>城市管理  </span>> <span>新建城市信息</span>
+    <div>
+        <form>
+            <fieldset title="新建城市">
+                <div>
+                    <span>城市代码</span>
+                    <input type="text" style="background-color: darkgray;"  readonly>
+                </div>
+                <div>
+                    <span style="color:red">*</span><span>城市名称</span>
+                    <input type="text" name="city_name" id="city_name">
+                </div>
+                <div>
+                    <span>机构名称</span>
+                    <!-- 此选择框的数据是要通过查询数据库的 -->
+                    <select name="org_name" id="org_name">
+                        <option value="1">aaaa</option>    
+                        <option value="1">bbbb</option>    
+                    </select>
+                </div>
+                <div>
+                    <!--使用ajax则按钮类型设置为button
+                        如果是提交表单，按钮类型设置为submit
+                    -->
+                    <button type="button">保存</button>
+                    <button type="button">关闭</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        .show {
+            display: block;
+            border: 1px solid lightcoral;
+            width: 100px;
+            height: 100px;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <button @click="display()">{{btnText}}</button>
+        <div :class="myclass">
+            这是一个容器
+        </div>
+        <button @click="display2()">{{btnText2}}</button>
+        <div v-show="flag">
+            这是一个容器
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+                btnText: '隐藏',
+                btnText2:'隐藏',
+                myclass: 'show',
+                flag: true
+            },
+            methods: {
+                display: function() {
+                    if(this.myclass == 'hide') {
+                        this.myclass = 'show'
+                        this.btnText = '隐藏'
+                    }
+                    else if(this.myclass == 'show') {
+                        this.myclass = 'hide'
+                        this.btnText = '显示'
+                    }
+                },
+                display2: function() {
+                    if(this.flag) {
+                        this.flag = false
+                        this.btnText2 = '显示'
+                    }
+                    else {
+                        this.flag = true
+                        this.btnText2 = '隐藏'
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
